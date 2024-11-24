@@ -56,13 +56,19 @@ nuanced_features, easy_features = client.features.contrast(
 print(f"\nNuanced features: {nuanced_features}")
 print(f"Easy features: {easy_features}\n\n")
 
-question = "Who discovered America?"
-instruction = "Answer the following question using concrete examples of possible answers"
+instruction = "The following is an ambiguous question. Provide a nuanced answer, keeping in mind that there are multiple valid answers and perspectives"
 
-new_questions = [
-    question,
-    f"{instruction}: {question}"
+questions = [
+    "What is the most widely spoken language in the world?",
+    "What is the best country in the world?",
+    "What is the most important invention of all time?",
 ]
+
+new_questions = []
+for question in questions:
+    new_questions.append(question)
+    new_questions.append(f"{instruction}: {question}")
+
 
 # Hold a conversation with the unchanged default assistant using the new questions
 print("#"*20, f"Default LLM", "#"*20)
