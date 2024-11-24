@@ -53,24 +53,25 @@ nuanced_features, easy_features = client.features.contrast(
     dataset_2_feature_rerank_query="easy",
     top_k=10,
 )
+nuanced_variant.set(nuanced_features, 0.2)
 
 # Print the nuanced and easy features
 print(f"\nNuanced features: {nuanced_features}")
 print(f"Easy features: {easy_features}\n\n")
 
-instruction = "The following is an ambiguous question. Provide a nuanced answer, keeping in mind that there are multiple valid answers and perspectives"
+# Define the instruction hidden prompt
+instruction = "The following is an ambiguous question. Provide a nuanced answer, keeping in mind that there are multiple valid answers and perspectives while remaining short and concise"
 
+# Define the evaluation questions
 questions = [
-    "What is the most widely spoken language in the world?",
+    "Who discovered America?",
     "What is the best country in the world?",
     "What is the most important invention of all time?",
 ]
-
 new_questions = []
 for question in questions:
     new_questions.append(question)
     new_questions.append(f"{instruction}: {question}")
-
 
 # Compare the responses of the two variants
 variants = {

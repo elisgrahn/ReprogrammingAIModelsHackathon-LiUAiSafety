@@ -128,13 +128,13 @@ def comp_conversation(client, variants: dict[str, goodfire.Variant], questions: 
         variants (dict[str, goodfire.Variant]): The dictionary of variants to compare, the key will be used as name.
         questions (list[str]): The list of questions asked by the user.
         max_tokens (int, optional): The maximum number of tokens to generate. Defaults to 100.
-    """    
+    """
     for question in questions:
         print(f"{'#'*53}\n\n{question}\n")
 
-        for name, variant in variants.items(): 
-            
+        for name, variant in variants.items():
+
             print("-"*20, name, "-"*20)
             print(f"{response(client, variant, question, max_tokens)}\n")
-       
-        print("#"*50, "\n\n")
+
+        print("#"*53, "\n\n")
