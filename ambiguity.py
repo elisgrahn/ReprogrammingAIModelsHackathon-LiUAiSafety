@@ -54,7 +54,7 @@ nuanced_features, easy_features = client.features.contrast(
 
 # Print the nuanced and easy features
 print(f"\nNuanced features: {nuanced_features}")
-print(f"Easy features: {easy_features}")
+print(f"Easy features: {easy_features}\n\n")
 
 question = "Who discovered America?"
 instruction = "Answer the following question using concrete examples of possible answers"
@@ -65,13 +65,17 @@ new_questions = [
 ]
 
 # Hold a conversation with the unchanged default assistant using the new questions
+print("#"*20, f"Default LLM", "#"*20)
 conversation(client, variant, new_questions, max_tokens=300)
+print("#"*50, "\n\n")
 
 # Nudge the variant towards the nuanced features
 variant.set(nuanced_features, 0.2)
 
 # Print the updated variant
-print(variant)
+print(variant, "\n\n")
 
 # Hold a conversation with the nuanced variant using the new questions
+print("#"*20, f"Nuanced LLM", "#"*20)
 conversation(client, variant, new_questions, max_tokens=300)
+print("#"*50)

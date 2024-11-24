@@ -116,4 +116,4 @@ def conversation(
     """
     for question in questions:
         print("\n-----------------------------------\n")
-        print(f"{question}\n\n{response(client, variant, question, max_tokens)}")
+        print(f"{question}\n{'-'*20}\n{response(client, variant, question, max_tokens)}")
