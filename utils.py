@@ -23,7 +23,7 @@ def setup_client(variant_size: Literal[8, 70]):
     else:
         raise ValueError(f"Invalid variant_size: {variant_size}")
 
-    api_key_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'goodfire.key')
+    api_key_path = os.path.join(os.path.dirname(__file__), 'goodfire.key')
     api_key = open(api_key_path).read().strip()
 
     client = goodfire.Client(api_key)
@@ -103,7 +103,6 @@ def conversation(
     client: goodfire.Client, 
     variant: goodfire.Variant, 
     questions: list[str], 
-    instruction: str = "", 
     max_tokens: int = 100,
 ):
     """Pretty print a conversation between the user and the assistant.
@@ -112,12 +111,8 @@ def conversation(
         client (goodfire.Client): GoodFire client.
         variant (goodfire.Variant): GoodFire variant.
         questions (list[str]): The list of questions asked by the user.
-        instruction (str, optional): The instruction to prepend to the questionss. Defaults to "".
         max_tokens (int, optional): The maximum number of tokens to generate. Defaults to 100.
-    """    
+    """
     for question in questions:
-
-        input = f"{instruction}: {question}" if instruction else question
-
         print("\n-----------------------------------\n")
-        print(f"{question}\n\n{response(input, client, variant, max_tokens)}")
+        print(f"{question}\n\n{response(client, variant, question, max_tokens)}")
