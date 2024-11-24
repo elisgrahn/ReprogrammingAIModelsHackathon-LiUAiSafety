@@ -3,6 +3,7 @@ from typing import Literal
 
 import goodfire
 
+
 def setup_client(variant_size: Literal[8, 70]):
     """Setup the GoodFire client and variant.
 
@@ -117,3 +118,23 @@ def conversation(
     for question in questions:
         print("\n-----------------------------------\n")
         print(f"{question}\n{'-'*20}\n{response(client, variant, question, max_tokens)}")
+
+
+def comp_conversation(client, variants: dict[str, goodfire.Variant], questions: list[str], max_tokens=100):
+    """Pretty print a comparison conversation between the user and the assistants.
+
+    Args:
+        client (_type_): The GoodFire client.
+        variants (dict[str, goodfire.Variant]): The dictionary of variants to compare, the key will be used as name.
+        questions (list[str]): The list of questions asked by the user.
+        max_tokens (int, optional): The maximum number of tokens to generate. Defaults to 100.
+    """    
+    for question in questions:
+        print(f"{'#'*53}\n\n{question}\n")
+
+        for name, variant in variants.items(): 
+            
+            print("-"*20, name, "-"*20)
+            print(f"{response(client, variant, question, max_tokens)}\n")
+       
+        print("#"*50, "\n\n")

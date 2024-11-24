@@ -37,7 +37,9 @@ nuanced_answers = [
     "Shakespeare is widely regarded as one of the greatest, but 'greatness' is subjective and influenced by cultural and historical context. Other playwrights, such as Sophocles, Molière, and contemporary figures, have also been celebrated.",
 ]
 
-client, variant = setup_client(70)
+# Setup the two variants
+client, default_variant = setup_client(70)
+client, nuanced_variant = setup_client(70)
 
 # Generate the datasets from the questions and answers
 nuanced_dataset, easy_dataset = generate_datasets(questions, nuanced_answers, easy_answers)
@@ -46,7 +48,7 @@ nuanced_dataset, easy_dataset = generate_datasets(questions, nuanced_answers, ea
 nuanced_features, easy_features = client.features.contrast(
     dataset_1=nuanced_dataset,
     dataset_2=easy_dataset,
-    model=variant,
+    model=default_variant,
     dataset_1_feature_rerank_query="nuanced",
     dataset_2_feature_rerank_query="easy",
     top_k=10,
@@ -70,18 +72,10 @@ for question in questions:
     new_questions.append(f"{instruction}: {question}")
 
 
-# Hold a conversation with the unchanged default assistant using the new questions
-print("#"*20, f"Default LLM", "#"*20)
-conversation(client, variant, new_questions, max_tokens=300)
-print("#"*50, "\n\n")
+# Compare the responses of the two variants
+variants = {
+    "Default LLM": default_variant,
+    "Nuanced LLM": nuanced_variant
+}
 
-# Nudge the variant towards the nuanced features
-variant.set(nuanced_features, 0.2)
-
-# Print the updated variant
-print(variant, "\n\n")
-
-# Hold a conversation with the nuanced variant using the new questions
-print("#"*20, f"Nuanced LLM", "#"*20)
-conversation(client, variant, new_questions, max_tokens=300)
-print("#"*50)
+comp_conversation(client, variants, new_questions, max_tokens=300)
